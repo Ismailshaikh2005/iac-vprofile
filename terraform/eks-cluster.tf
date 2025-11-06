@@ -9,31 +9,21 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
-  # Don’t let module create new roles
-  create_iam_role = false
+  # Turn off permissions you don't have
+  create_iam_role             = false
+  create_cloudwatch_log_group = false
+  cluster_encryption_config   = {}
 
-  # Use your existing IAM role (pass only the name, not ARN)
-  cluster_iam_role_name = "AWSServiceRoleForAmazonEKS"
+  # Skip IAM-related parts
+  iam_role_name   = null
+  iam_role_arn    = null
+  iam_role_policy = {}
+  cluster_enabled_log_types = []
+  cluster_log_retention_in_days = null
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
   }
 
-  eks_managed_node_groups = {
-    one = {
-      name           = "node-group-1"
-      instance_types = ["t3.small"]
-      min_size       = 1
-      max_size       = 2
-      desired_size   = 2
-    }
-
-    two = {
-      name           = "node-group-2"
-      instance_types = ["t3.small"]
-      min_size       = 1
-      max_size       = 2
-      desired_size   = 1
-    }
-  }
+  eks_managed_node_groups = {}
 }
