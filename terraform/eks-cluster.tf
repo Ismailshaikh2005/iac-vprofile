@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.24.0"
+  version = "19.19.1"
 
   cluster_name    = local.cluster_name
   cluster_version = "1.27"
@@ -12,8 +12,8 @@ module "eks" {
   # Don’t let module create new roles
   create_iam_role = false
 
-  # Pass your existing IAM role ARN correctly
-  cluster_service_role_arn = "arn:aws:iam::589010839094:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS"
+  # Use your existing IAM role (pass only the name, not ARN)
+  cluster_iam_role_name = "AWSServiceRoleForAmazonEKS"
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
