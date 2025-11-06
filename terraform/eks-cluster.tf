@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.19.1"
+  version = "20.24.0"
 
   cluster_name    = local.cluster_name
   cluster_version = "1.27"
@@ -9,12 +9,11 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
-  # Disable actions you don't have permission for
-  create_cloudwatch_log_group = false
-  create_iam_role             = false
+  # Don’t let module create new roles
+  create_iam_role = false
 
-  # Use an existing IAM role (replace name if different)
-  cluster_role_arn = "arn:aws:iam::589010839094:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS"
+  # Pass your existing IAM role ARN correctly
+  cluster_service_role_arn = "arn:aws:iam::589010839094:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS"
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
@@ -22,19 +21,19 @@ module "eks" {
 
   eks_managed_node_groups = {
     one = {
-      name = "node-group-1"
+      name           = "node-group-1"
       instance_types = ["t3.small"]
-      min_size     = 1
-      max_size     = 2
-      desired_size = 2
+      min_size       = 1
+      max_size       = 2
+      desired_size   = 2
     }
 
     two = {
-      name = "node-group-2"
+      name           = "node-group-2"
       instance_types = ["t3.small"]
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
+      min_size       = 1
+      max_size       = 2
+      desired_size   = 1
     }
   }
 }
