@@ -13,6 +13,9 @@ module "eks" {
   create_cloudwatch_log_group = false
   create_iam_role             = false
 
+  # Use an existing IAM role (replace name if different)
+  cluster_iam_role_name = "eksClusterRole"
+
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
   }
