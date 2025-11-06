@@ -14,7 +14,7 @@ module "eks" {
   create_iam_role             = false
 
   # Use an existing IAM role (replace name if different)
-  cluster_iam_role_name = "eksClusterRole"
+  cluster_iam_role_name = "AWSServiceRoleForAmazonEKS"
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
